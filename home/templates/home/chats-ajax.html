@@ -1,0 +1,44 @@
+<div class="container">
+    {% if recent_messages %}
+        <div class="list-group">
+            {% for message in recent_messages %}
+                <div class="message-container">
+                    {% if message.sender.user == request.user %}
+                        <a href="#message{% if message.replied_message %}{{ message.replied_message.id }}{% else %}{{ message.id }}{% endif %}" class="list-group-item list-group-item-action list-group-item-primary rounded" id="message{{ message.id }}">
+                            {% if message.replied_message %}
+                                <div class="replied-message alert alert-secondary p-2 mb-2">
+                                    <small class="text-muted">{% if message.replied_message.sender.user == request.user %}You{% else %}{{ message.replied_message.sender.user.username }}{% endif %}: {{ message.replied_message.text }}</small>
+                                </div>
+                            {% endif %}
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">You</h5>
+                                <div>
+                                    <small class="text-muted">{{ message.date }}</small>
+                                    <button onclick="replyToMessage('{{ message.sender.user.username }}', '{{ message.id }}')" class="btn btn-dark btn-sm"><i class="bi bi-reply-fill"></i></button>
+                                </div>
+                            </div>
+                            <p class="mb-1">{{ message.text }}</p>
+                        </a>
+                    {% else %}
+                        <a href="#message{% if message.replied_message %}{{ message.replied_message.id }}{% else %}{{ message.id }}{% endif %}" class="list-group-item list-group-item-action list-group-item-secondary rounded" id="message{{ message.id }}">
+                            {% if message.replied_message %}
+                                <div class="replied-message alert alert-secondary p-2 mb-2">
+                                    <small class="text-muted">{% if message.replied_message.sender.user == request.user %}You{% else %}{{ message.replied_message.sender.user.username }}{% endif %}: {{ message.replied_message.text }}</small>
+                                </div>
+                            {% endif %}
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ message.sender.user.username }}</h5>
+                                <div>
+                                    <small class="text-muted">{{ message.date }}</small>
+                                    <button onclick="replyToMessage('{{ message.sender.user.username }}', '{{ message.id }}')" class="btn btn-dark btn-sm"><i class="bi bi-reply-fill"></i></button>
+                                </div>
+                            </div>
+                            <p class="mb-1">{{ message.text }}</p>
+                        </a>
+                    {% endif %}
+                    <br>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

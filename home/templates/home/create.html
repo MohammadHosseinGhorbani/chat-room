@@ -1,0 +1,24 @@
+{% extends "home/home.html" %}
+
+{% block create_room %}
+    <h2>Create a new room and share it with your friends!</h2>
+    {% if messages %}
+    {% for message in messages %}
+        <div title="error" class='p-3 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3 text-break' style="display: inline-block;">
+            {{ message }}
+        </div>
+    <br>
+    {% endfor %}
+    {% endif %}
+    <div title="login" class="border border-3 rounded" style="display: inline-block; padding: 15px; margin: 40px">
+                    <form name="create" action="{% url 'home:create' %}" method="post">
+                        {% csrf_token %}
+                        <h2>Create Room</h2>
+                        <hr>
+                        <div class="input-group mb-3">
+                          <input type="text" required aria-required="true" class="form-control" name="name" id="name" placeholder="Room Name" aria-label="Room Name" aria-describedby="basic-addon1">
+                        </div>
+                        <button type="submit" value="Create" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+{% endblock %}
